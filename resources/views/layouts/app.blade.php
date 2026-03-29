@@ -203,8 +203,7 @@
                         </ul>
                     </li>
 
-                    <li class="menu @if (request()->routeIs('users.*')) active @endif"
-                        @if (session('auth.user.role') !== 'admin') style="opacity: 0.5;" @endif>
+                    <li class="menu @if (request()->routeIs('users.*')) active @endif">
                         <a href="#users" data-bs-toggle="collapse"
                             @if (request()->routeIs('users.*')) aria-expanded="true" @endif class="dropdown-toggle">
                             <div class="">
@@ -224,11 +223,11 @@
                         </a>
                         <ul class="collapse submenu list-unstyled @if (request()->routeIs('users.*')) show @endif" 
                             id="users" data-bs-parent="#accordionExample">
-                            <li class="@if (request()->routeIs('users.alumni')) active @endif">
-                                <a href="{{ route('users.alumni') }}"> Alumni </a>
+                            <li class="@if (request()->routeIs('users.create')) active @endif">
+                                <a href="{{ route('users.create') }}"> Input Pengguna </a>
                             </li> 
-                            <li class="@if (request()->routeIs('users.students')) active @endif">
-                                <a href="{{ route('users.students') }}"> Mahasiswa </a>
+                            <li class="@if (request()->routeIs('users.index')) active @endif">
+                                <a href="{{ route('users.index') }}"> Daftar Pengguna </a>
                             </li>
                         </ul>
                     </li>
@@ -330,34 +329,6 @@
                         </ul>
                     </li>
                     
-                    <li class="menu @if (request()->routeIs('setting.*')) active @endif"
-                        @if (session('auth.user.role') !== 'super_admin') style="opacity: 0.5;" @endif>
-                        <a href="#setting" data-bs-toggle="collapse"
-                            @if (request()->routeIs('setting.*')) aria-expanded="true" @endif class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="feather feather-book-open">
-                                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                                </svg>
-                                <span>Pengaturan</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled @if (request()->routeIs('setting.*')) show @endif" 
-                            id="setting" data-bs-parent="#accordionExample">
-                            <li class="@if (request()->routeIs('setting.user.create')) active @endif">
-                                <a href="{{ route('setting.user.create') }}"> Input Pengguna </a>
-                            </li>
-                            <li class="@if (request()->routeIs('setting.user.index')) active @endif">
-                                <a href="{{ route('setting.user.index') }}"> Daftar Pengguna </a>
-                            </li>
-                        </ul>
-                    </li>
-
                 </ul>
                 
             </nav>

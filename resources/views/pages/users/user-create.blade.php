@@ -8,7 +8,7 @@
     <div class="page-meta">
         <nav class="breadcrumb-style-one" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url('/setting/user/user-index') }}">Pengaturan</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('/users/index') }}">Pengguna</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Input Pengguna</li>
             </ol>
         </nav>
@@ -148,10 +148,10 @@
                             Tambahkan
                         </button>
 
-                        {{-- <a href="{{ route('setting.user.index') }}"
-                            class="btn btn-danger">
-                            Batal
-                        </a> --}}
+                        <a href="{{ route('users.index') }}"
+                            class="btn btn-primary">
+                            Lihat Daftar
+                        </a>
                     </div>
 
                 </form>

@@ -7,7 +7,6 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\JobVacancy\JobVacancyController;
 use App\Http\Controllers\Master\FacultyController;
 use App\Http\Controllers\Master\StudyProgramController;
-use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\SuperAdmin\AdminManagementController;
 use App\Http\Controllers\TracerStudy\TracerStudyController;
 use App\Http\Controllers\User\UserManagementController;
@@ -52,11 +51,12 @@ Route::middleware('frontend.auth')->group(function () {
     
     // Users 
     Route::prefix('users')->name('users.')
-        ->middleware(['role:admin'])
+        ->middleware(['role:admin,super_admin'])
         ->group(function () {
             
-        Route::get('/student', [UserManagementController::class, 'student'])->name('students');
-        Route::get('/alumni', [UserManagementController::class, 'alumni'])->name('alumni');
+        Route::get('/users', [UserManagementController::class, 'index'])->name('index');
+        Route::get('/create', [UserManagementController::class, 'create'])->name('create');
+        Route::post('/store', [UserManagementController::class, 'store'])->name('store');
 
         Route::put('/{id}/approve', [UserManagementController::class, 'approve'])->name('approve');
         Route::put('/{id}/reject', [UserManagementController::class, 'reject'])->name('reject');
@@ -139,18 +139,6 @@ Route::middleware('frontend.auth')->group(function () {
             Route::delete('/{id}/delete', [StudyProgramController::class, 'destroy'])->name('destroy');
             Route::get('/{id}/edit', [StudyProgramController::class, 'edit'])->name('edit');
             Route::put('/{id}', [StudyProgramController::class, 'update'])->name('update');
-        });
-    });
-
-    // Setting 
-    Route::prefix('setting')->name('setting.')
-        ->middleware(['role:super_admin'])
-        ->group(function () {
-
-        Route::prefix('user')->name('user.')->group(function () {
-            Route::get('/index', [SettingController::class, 'index'])->name('index');
-            Route::get('/create', [SettingController::class, 'create'])->name('create');
-            Route::post('/', [SettingController::class, 'store'])->name('store');
         });
     });
 });

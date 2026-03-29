@@ -121,35 +121,40 @@
                     {{-- ================= ACTION ================= --}}
                     <hr>
                     <div class="mt-4 d-flex justify-content-between gap-2">
-                        <div class="d-flex gap-2">
-                            <label class="form-label">Ubah Status Pengguna</label>
+                        @if (!$is_same_faculty)
+                            <div></div>
+                        @else
+                            <div class="d-flex gap-2">
+                                <label class="form-label">Ubah Status Pengguna</label>
 
-                            <!-- Approve -->
-                            <form method="POST" action="{{ route('users.approve', $user['id']) }}">
-                                @csrf
-                                @method('PUT')
-                                
-                                <button class="btn {{ $user['status'] === 'active' ? 'btn-primary' : 'btn-outline-primary' }}" 
-                                    style="width:100px">
-                                    Setujui
-                                </button>
-                            </form>
+                                <!-- Approve -->
+                                <form method="POST" action="{{ route('users.approve', $user['id']) }}">
+                                    @csrf
+                                    @method('PUT')
+                                    
+                                    <button class="btn {{ $user['status'] === 'active' ? 'btn-primary' : 'btn-outline-primary' }}" 
+                                        style="width:100px">
+                                        Setujui
+                                    </button>
+                                </form>
 
-                            <!-- Reject -->
-                            <form method="POST" action="{{ route('users.reject', $user['id']) }}">
-                                @csrf
-                                @method('PUT')
-                                
-                                <button class="btn {{ $user['status'] === 'rejected' ? 'btn-primary' : 'btn-outline-primary' }}" 
-                                    style="width:100px">
-                                    Tolak
-                                </button>
-                            </form>
-                        </div>
+                                <!-- Reject -->
+                                <form method="POST" action="{{ route('users.reject', $user['id']) }}">
+                                    @csrf
+                                    @method('PUT')
+                                    
+                                    <button class="btn {{ $user['status'] === 'rejected' ? 'btn-primary' : 'btn-outline-primary' }}" 
+                                        style="width:100px">
+                                        Tolak
+                                    </button>
+                                </form>
+                            </div>
+                        @endif
+                        
 
                         <!-- Back -->
                         <div class="">
-                            <a href="{{ $user['role'] === 'student' ? route('users.students') : route('users.alumni') }}" 
+                            <a href="{{ route('users.index') }}" 
                                 class="btn btn-primary">
                                 Kembali
                             </a>

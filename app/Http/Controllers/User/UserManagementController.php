@@ -12,67 +12,114 @@ class UserManagementController extends Controller
     /**
      * Halaman daftar mahasiswa
      */
-    public function student(Request $request)
+    public function index(Request $request)
     {
         $token = session('auth.token');
 
-        $search = $request->search;
+        $filters = [
+            'type'              => $request->type,
+            'search'            => $request->search,
+            'faculty_id'        => $request->faculty_id,
+            'study_program_id'  => $request->study_program_id,
+            'entry_year_from'   => $request->entry_year_from,
+            'entry_year_to'     => $request->entry_year_to,
+        ];
 
         /** @var Response $response */
         $response = Http::withToken($token)
             ->acceptJson()
-            ->get(config('services.api.base_url') . '/admin/students', [
-                'status' => $request->status,
-                'study_program_id' => $request->study_program_id,
-                'entry_year' => $request->entry_year,
-                'search' => $search,
-            ]);
+            ->get(
+                config('services.api.base_url') . '/admin/users',
+                array_filter($filters)
+            );
 
         if ($response->failed()) {
             Alert::toast(
-                $response->json('message') ?? 'Gagal mengambil data mahasiswa',
+                $response->json('message') ?? 'Gagal mengambil data pengguna',
                 'error'
             )->position('top-end');
 
             return back();
         }
 
-        $users = $response->json('data.data') ?? [];
+        $result = $response->json();
 
-        return view('pages.users.student-index', compact('users'));
+        return view('pages.users.user-index', [
+            'users'         => $result['data']['data'] ?? [],
+            'faculties'     => $result['faculties'] ?? [],
+            'studyPrograms' => $result['study_programs'] ?? [],
+            'filters'       => $filters,
+        ]);
     }
 
     /**
-     * Halaman daftar alumni
+     * Halaman daftar mahasiswa
      */
-    public function alumni(Request $request)
+    public function create()
     {
         $token = session('auth.token');
-
-        $search = $request->search;
 
         /** @var Response $response */
         $response = Http::withToken($token)
             ->acceptJson()
-            ->get(config('services.api.base_url') . '/admin/alumni', [
-                'status' => $request->status,
-                'study_program_id' => $request->study_program_id,
-                'graduation_year' => $request->graduation_year,
-                'search' => $search,
-            ]);
+            ->get(config('services.api.base_url') . '/admin/get-master');
 
         if ($response->failed()) {
             Alert::toast(
-                $response->json('message') ?? 'Gagal mengambil data alumni',
+                $response->json('message') ?? 'Gagal mengambil data master',
                 'error'
             )->position('top-end');
 
             return back();
         }
 
-        $users = $response->json('data.data') ?? [];
+        return view('pages.users.user-create', [
+            'faculties' => $response->json('faculties'),
+            'studyPrograms' => $response->json('study_programs'),
+        ]);
+    }
 
-        return view('pages.users.alumni-index', compact('users'));
+    /**
+     * Halaman daftar mahasiswa
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'required|string|min:6',
+            'role' => 'required|in:student,alumni',
+            'gender' => 'required|in:male,female',
+            'student_id_number' => 'required|string|max:30',
+            'faculty_id' => 'required',
+            'study_program_id' => 'required',
+            'entry_year' => 'required|digits:4|integer',
+            'graduation_year' => 'nullable|digits:4|integer|gte:entry_year',
+        ]);
+
+        $token = session('auth.token');
+
+        /** @var Response $response */
+        $response = Http::withToken($token)
+            ->acceptJson()
+            ->post(
+                config('services.api.base_url') . '/admin/users',
+                $validated
+            );
+
+        if ($response->failed()) {
+            Alert::toast(
+                $response->json('message') ?? 'Gagal menambahkan pengguna',
+                'error'
+            )->position('top-end');
+
+            return back()->withInput();
+        }
+
+        Alert::toast('Pengguna berhasil ditambahkan', 'success')
+            ->position('top-end');
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -96,9 +143,12 @@ class UserManagementController extends Controller
             return back();
         }
 
-        $user = $response->json('data');
+        $result = $response->json();
 
-        return view('pages.users.user-detail', compact('user'));
+        return view('pages.users.user-detail', [
+            'user' => $result['data'] ?? [],
+            'is_same_faculty' => $result['is_same_faculty'],
+        ]);
     }
 
     /**
