@@ -8,7 +8,7 @@
         <nav class="breadcrumb-style-one" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/master/faculties/index">Master</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Program Studi</li>
+                <li class="breadcrumb-item active" aria-current="page">Ubah Program Studi</li>
             </ol>
         </nav>
     </div>
@@ -29,7 +29,7 @@
                     @csrf
                     @method('PUT')
                     
-                    <p class="fs-5 mb-3 fw-semibold">Edit Program Studi</p>
+                    <p class="fs-5 mb-3 fw-semibold">Ubah Program Studi</p>
 
                     <div class="row">
                         <div class="col-md-6">

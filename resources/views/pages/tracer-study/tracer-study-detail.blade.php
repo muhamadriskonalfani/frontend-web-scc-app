@@ -35,7 +35,7 @@
                         <!-- ================= LEFT ================= -->
                         <div class="col-md-6">
 
-                            <h6 class="mb-3 fw-bold">Informasi Akun</h6>
+                            <h6 class="fw-bold">Informasi Akun</h6>
 
                             <table class="table table-sm">
                                 <tr>
@@ -53,16 +53,10 @@
                                     </td>
                                 </tr>
                             </table>
-
-                        </div>
-
-                        <!-- ================= RIGHT ================= -->
-                        <div class="col-md-6">
-
-                            <h6 class="mb-3 fw-bold">Data Akademik & Karir</h6>
+                            
+                            <h6 class="fw-bold">Informasi Akademik</h6>
 
                             <table class="table table-sm">
-
                                 <tr>
                                     <th width="200">NIM</th>
                                     <td>{{ $userTracerStudy['student_id_number'] ?? '-' }}</td>
@@ -87,9 +81,19 @@
                                     <th>Tahun Lulus</th>
                                     <td>{{ $userTracerStudy['graduation_year'] ?? '-' }}</td>
                                 </tr>
+                            </table>
+
+                        </div>
+
+                        <!-- ================= RIGHT ================= -->
+                        <div class="col-md-6">
+
+                            <h6 class="fw-bold">Informasi Karir</h6>
+
+                            <table class="table table-sm">
 
                                 <tr>
-                                    <th>Status Kerja</th>
+                                    <th style="width: 150px;">Status Kerja</th>
                                     <td>{{ ucfirst($userTracerStudy['employment_status'] ?? '-') }}</td>
                                 </tr>
 

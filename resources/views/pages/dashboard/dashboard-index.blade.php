@@ -303,7 +303,7 @@
             [tracerCompleted, tracerIncomplete],
             ['Lengkap', 'Belum Lengkap'],
             ['#2563eb', '#e5e7eb'],
-            'Tracer'
+            'Alumni'
         );
 
     });

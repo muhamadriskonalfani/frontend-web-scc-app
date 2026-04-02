@@ -26,7 +26,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('setting.user.store') }}">
+                <form method="POST" action="{{ route('users.store') }}">
                     @csrf
 
                     <p class="fs-5 mb-4 fw-semibold">Input Pengguna</p>
